@@ -90,7 +90,7 @@ end
 #-------------------------------------
 # draw hexapolar origin
 #-------------------------------------
-function OpticSim.Vis.draw!(scene::Makie.LScene, o::Origins.Hexapolar; transform::Geometry.Transform = Transform(), kwargs...) where {T<:Real}
+function OpticSim.Vis.draw!(scene::Makie.LScene, o::Union{Origins.Hexapolar, Origins.CircUniform}; transform::Geometry.Transform = Transform(), kwargs...) where {T<:Real}
     dir = forward(transform)
     uv = SVector{3}(right(transform))
     vv = SVector{3}(up(transform))

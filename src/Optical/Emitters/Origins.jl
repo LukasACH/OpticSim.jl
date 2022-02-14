@@ -3,7 +3,7 @@
 # See LICENSE in the project root for full license information.
 
 module Origins
-export Point, RectUniform, RectGrid, Hexapolar, RectJitterGrid
+export Point, RectUniform, RectGrid, Hexapolar, RectJitterGrid, CircUniform
 
 using ....OpticSim
 using ...Emitters
@@ -203,6 +203,38 @@ function Emitters.generate(o::Hexapolar{T}, n::Int64) where {T<:Real}
         v = sin(ϕ) * o.halfsizev
         return zeros(Vec3{T}) + ρ * (u * unitX3(T) + v * unitY3(T))
     end
+end
+
+"""
+    CircUniform{T} <: AbstractOriginDistribution{T}
+
+Encapsulates a uniformly sampled ellipse (or a circle where halfsizeu=halfsizev) with user defined number of samples.
+
+```julia
+CircUniform(halfsizeu::T, halfsizev::T, samples_count::Int64) where {T<:Real}
+```
+"""
+struct CircUniform{T} <: AbstractOriginDistribution{T}
+    halfsizeu::T
+    halfsizev::T
+    samples_count::Int64
+    rng::Random.AbstractRNG
+
+    function CircUniform(halfsizeu::T, halfsizev::T, samples_count::Int64; rng=Random.GLOBAL_RNG) where {T<:Real}
+        return new{T}(halfsizeu, halfsizev, samples_count, rng)
+    end
+end
+
+Base.length(o::CircUniform) = o.samples_count
+Emitters.visual_size(o::CircUniform) = max(2o.halfsizeu, 2o.halfsizev)
+
+# generate origin on the agrid
+function Emitters.generate(o::CircUniform{T}, n::Int64) where {T<:Real}
+    r = sqrt(rand(o.rng, T))
+    θ = 2π * rand(o.rng, T)
+    u = o.halfsizeu * r * cos(θ)
+    v = o.halfsizev * r * sin(θ)
+    return zero(Vec3{T}) + u * unitX3(T) + v * unitY3(T)
 end
 
 end # module Origins

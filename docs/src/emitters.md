@@ -25,6 +25,7 @@ The [`OpticSim`](index.html) package comes with various implementations of each 
   * [`Emitters.Origins.RectUniform`](@ref) - a uniformly sampled rectangle with user defined number of samples
   * [`Emitters.Origins.RectGrid`](@ref) - a rectangle sampled in a grid fashion
   * [`Emitters.Origins.Hexapolar`](@ref) - a circle (or an ellipse) sampled in an hexapolar fashion (rings)
+  * [`Emitters.Origins.CircUniform`](@ref) - a circle (or an ellipse) sampled in a uniform fashion (rings)
 - Rays Directions Distribution - the interface **length** returns the number of samples, and **generate** returns the n'th sample.
   * [`Emitters.Directions.Constant`](@ref)
   * [`Emitters.Directions.RectGrid`](@ref)
@@ -200,6 +201,7 @@ Emitters.Origins.Point
 Emitters.Origins.RectUniform
 Emitters.Origins.RectGrid
 Emitters.Origins.Hexapolar
+Emitters.Origins.CircUniform
 ```
 
 ## [Rays Directions Distribution](@id rays_directions_distribution)
